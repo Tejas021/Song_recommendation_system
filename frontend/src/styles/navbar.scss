@@ -1,0 +1,41 @@
+.navbar{
+    background: linear-gradient(to top, transparent 0%, rgb(0, 0, 0, 0.3) 50%);
+    width: 100%;
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    &.scrolled{
+        background-color: #131519;
+    }
+}
+
+.navbar-brand{
+    color: white;
+    background-color: #50C878;
+    font-size: 2rem;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.profile{
+    margin-right: 2%;
+}
+
+.dropdown-toggle{
+    height: 50px;
+}
+
+// .dropdown-menu{
+//   width: 90px;
+// }
+
+.navbar-toggler{
+    color: white;
+}
+
+#dropdownMenuButton{
+    &:hover{
+        color: white;
+    }
+}
+
