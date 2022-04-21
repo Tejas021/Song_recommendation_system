@@ -15,7 +15,6 @@ const Home = () => {
         ),url(https://images3.alphacoders.com/123/thumbbig-123037.webp)`,
         backgroundPosition:"center center"
       }}>
-
       </div>
     </div>
   )
