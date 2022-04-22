@@ -7,6 +7,12 @@ from flask import render_template, jsonify, request
 from music_recomm import app
 from flask_cors import CORS
 from flask_restful import Resource, Api
+from flask_sqlalchemy import SQLAlchemy
+
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/muscify'
+db = SQLAlchemy(app)
+
 
 api = Api(app)
 CORS(app)
@@ -56,3 +62,19 @@ def about():
         year=datetime.now().year,
         message='Your application description page.'
     )
+
+class Users(db.Model):
+    sno = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(80), unique=False, nullable=False)
+
+
+@app.route('/register', methods=["POST"])
+def register():
+     input_json = request.get_json(force=True) 
+     dictToReturn = {'username':input_json['username'],'email':input_json['email'],'password':input_json['password']}
+     entry = Users(username=input_json['username'],email=input_json['email'],password=input_json['password'],)
+     db.session.add(entry)
+     db.session.commit()
+     return jsonify(dictToReturn)
