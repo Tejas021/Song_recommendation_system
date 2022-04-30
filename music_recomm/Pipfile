@@ -8,6 +8,11 @@ Flask = "~=1.1"
 flask-restful = "*"
 flask-cors = "*"
 markupsafe = "==2.0.1"
+flask-sqlalchemy = "*"
+pymongo = {extras = ["srv"], version = "*"}
+joblib = "*"
+numpy = "*"
+pandas = "*"
 
 [dev-packages]
 
