@@ -7,7 +7,8 @@ from flask import render_template, jsonify, request
 from music_recomm import app
 from flask_cors import CORS
 from flask_restful import Resource, Api
-from flask_sqlalchemy import SQLAlchemy
+import joblib
+
 from flask import request
 from pymongo import MongoClient
 from bson.json_util import dumps
@@ -16,6 +17,7 @@ import json
 client = MongoClient('mongodb+srv://admin:admin123@cluster0.7qxt2.mongodb.net/musicfy?retryWrites=true&w=majority')
 db = client.ContactDB
 
+pr = joblib.load("./music_recomm/IndividualUser.pkl")
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/muscify'
 # db = SQLAlchemy(app)
@@ -50,25 +52,6 @@ def home():
         year=datetime.now().year,
     )
 
-@app.route('/contact')
-def contact():
-    """Renders the contact page."""
-    return render_template(
-        'contact.html',
-        title='Contact',
-        year=datetime.now().year,
-        message='Your contact page.'
-    )
-
-@app.route('/about')
-def about():
-    """Renders the about page."""
-    return render_template(
-        'about.html',
-        title='About',
-        year=datetime.now().year,
-        message='Your application description page.'
-    )
 
 @app.route("/register", methods = ['POST'])
 def add_user():
@@ -88,3 +71,10 @@ def add_user():
         return dumps({'error' : str(e)})
 
 
+
+
+@app.route("/song/<name>")
+def song(name):
+    recom=pr.get_similar_items([name])
+    
+    return recom.to_json(orient ='records')
