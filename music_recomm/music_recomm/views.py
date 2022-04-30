@@ -17,6 +17,10 @@ client = MongoClient('mongodb+srv://admin:admin123@cluster0.7qxt2.mongodb.net/mu
 db = client.ContactDB
 
 
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/muscify'
+# db = SQLAlchemy(app)
+
+
 api = Api(app)
 CORS(app)
 class Hello(Resource):
