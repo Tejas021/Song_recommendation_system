@@ -3,6 +3,7 @@ import Signup from './pages/Signup'
 import Login from './pages/Login'
 import Home from './pages/Home'
 import { useEffect, useState } from "react"
+import Recommender from "./pages/Recommender"
 
 
 
@@ -21,6 +22,7 @@ function App() {
           <Route path="/register" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Home />} /> 
+          <Route path="/songer" element={<Recommender />} /> 
         </Routes>
       </Router>
     </div>

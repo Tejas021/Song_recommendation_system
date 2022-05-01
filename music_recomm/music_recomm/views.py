@@ -2,6 +2,7 @@
 Routes and views for the flask application.
 """
 
+
 from datetime import datetime
 from flask import Response, render_template, jsonify, request
 from music_recomm import app
@@ -20,39 +21,17 @@ db = client.ContactDB
 
 pr = joblib.load("./music_recomm/IndividualUser.pkl")
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/muscify'
-# db = SQLAlchemy(app)
 
 
 api = Api(app)
 CORS(app)
 
-class Hello(Resource):
-  
-    # corresponds to the GET request.
-    # this function is called whenever there
-    # is a GET request for this resource
-    def get(self):
-  
-        return jsonify({'message': 'hello world'})
-  
-    # Corresponds to POST request
-    def post(self):
-          
-        data = request.get_json()     # status code
-        return jsonify({'data': data}), 201
-
-api.add_resource(Hello, '/')
 
 @app.route('/')
-@app.route('/home')
 def home():
     """Renders the home page."""
-    return render_template(
-        'index.html',
-        title='Home Page',
-        year=datetime.now().year,
-    )
+    return "home"
+    
 
 
 @app.route("/register", methods = ['POST'])
@@ -115,8 +94,11 @@ def user(id):
     return resp
 
 
-@app.route("/song/<name>")
-def song(name):
-    recom=pr.get_similar_items([name])
-    
+@app.route("/song",methods=["POST"])
+def song():
+    data=json.loads(request.data)
+    name1 =data["songname"] + " - " + data["name"]
+    recom=pr.get_similar_items([name1])
+    print(name1)
+    # return "hi"
     return recom.to_json(orient ='records')
