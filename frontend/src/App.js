@@ -4,27 +4,51 @@ import Login from './pages/Login'
 import Home from './pages/Home'
 import { useEffect, useState } from "react"
 import Recommender from "./pages/Recommender"
+import { UserContext } from './UserContext'
+import {request} from './axios'
+import { useNavigate } from "react-router-dom";
 
 
 
 function App() {
 
-  const [new1,setNew]=useState()
+  const [user, setUser] = useState(null)
+  // let navigate = useNavigate();
 
-  useEffect(()=>{
-      fetch("http://localhost:5000/").then(res=>console.log(res))
-  },[])
+  useEffect(() => {
+    const verifyUser = async ()=>{
+    try {
+      const email = localStorage.getItem('email')
+      const password = localStorage.getItem('password')
+      const resp = await request.post('/login', { 'email': email, "password": password })
+      console.log(resp.data)
+      if (resp.data.user) {
+        localStorage.setItem('email', resp.data.user.email)
+        localStorage.setItem('password', resp.data.user.password)
+        setUser(resp.data)
+        // navigate("/");
+      } else {
+        console.log('error')
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  verifyUser();
+  }, [])
 
   return (
     <div className="App">
-      <Router>
-        <Routes>
-          <Route path="/register" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Home />} /> 
-          <Route path="/songer" element={<Recommender />} /> 
-        </Routes>
-      </Router>
+      <UserContext.Provider value={{ user, setUser }}>
+        <Router>
+          <Routes>
+            <Route path="/register" element={user?<Home />:<Signup />} />
+            <Route path="/login" element={user?<Home />:<Login />} />
+            <Route path="/" element={user?<Home />:<Login />} />
+            {/* <Route path="/songer" element={<Recommender />} />  */}
+          </Routes>
+        </Router>
+      </UserContext.Provider>
     </div>
   );
 }

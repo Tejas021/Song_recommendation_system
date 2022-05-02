@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState,useContext } from 'react'
 import '../styles/auth.scss'
 import { Link } from 'react-router-dom'
 import { request } from '../axios'
 import { useNavigate } from "react-router-dom";
+import { UserContext } from '../UserContext';
 
 const Signup = () => {
 
@@ -11,6 +12,7 @@ const Signup = () => {
   const [password, setPassword] = useState('')
   const [err, setErr] = useState('')
   let navigate = useNavigate();
+  const { user, setUser } = useContext(UserContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -18,6 +20,9 @@ const Signup = () => {
       const resp = await request.post('/register', { 'username': username, 'email': email, "password": password })
       console.log(resp.data)
       if (resp.data.user) {
+        localStorage.setItem('email',resp.data.user.email)
+        localStorage.setItem('password',resp.data.user.password)
+        setUser(resp.data)
         navigate("/");
       } else {
         setErr(resp.data)
