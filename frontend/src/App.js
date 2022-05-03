@@ -3,7 +3,7 @@ import Signup from './pages/Signup'
 import Login from './pages/Login'
 import Home from './pages/Home'
 import { useEffect, useState } from "react"
-import Recommender from "./pages/Recommender"
+// import Recommender from "./pages/Recommender"
 import { UserContext } from './UserContext'
 import {request} from './axios'
 import { useNavigate } from "react-router-dom";
