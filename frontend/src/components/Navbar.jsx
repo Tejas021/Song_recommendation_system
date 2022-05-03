@@ -1,13 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState,useContext } from 'react'
 import { Link } from 'react-router-dom'
 import '../styles/navbar.scss'
 import {request} from '../axios'
+import { UserContext } from '../UserContext';
 
 const Navbar = () => {
 
     const [isScrolled, setIsScrolled] = useState(false);
     const [info, setInfo] = useState({name:"",songname:""})
     const [songs, setSongs] = useState(null)
+    const { user, setUser } = useContext(UserContext);
 
     const submitReq=async(e)=>{
         e.preventDefault()
@@ -17,11 +19,13 @@ const Navbar = () => {
     window.onscroll = () => {
         setIsScrolled(window.pageYOffset === 0 ? false : true);
         return () => (window.onscroll = null);
+
     };
 
     const logout = ()=>{
         localStorage.setItem('email','')
         localStorage.setItem('password','')
+        setUser(null)
     }
 
     return (
@@ -69,15 +73,15 @@ const Navbar = () => {
             <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <div style={{borderBottom:'solid #fee600'}} className="modal-header">
+                            <h5 className="modal-title text-white" id="exampleModalLabel">Modal title</h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
                             <form onSubmit={e => submitReq(e)}>
-                                <input type="text" placeholder="name" onChange={(e) => setInfo({ ...info, name: e.target.value })} />
-                                <input type="text" placeholder="songname" onChange={(e) => setInfo({ ...info, songname: e.target.value })} />
-                                <button type="submit" >Submit</button>
+                                <input type="text" placeholder="name" className='mx-2' onChange={(e) => setInfo({ ...info, name: e.target.value })} />
+                                <input type="text" placeholder="songname" className='mx-2' onChange={(e) => setInfo({ ...info, songname: e.target.value })} /><br />
+                                <button type="submit" className='btn btn-warning ms-2 my-3' >Submit</button>
                             </form>
 
                             {songs ? songs.map(sg => <p >{sg.song}</p>) : <div>wait</div>}
