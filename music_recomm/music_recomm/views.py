@@ -16,8 +16,8 @@ from bson.json_util import dumps
 import json
 from werkzeug.security import generate_password_hash,check_password_hash
 
-client = MongoClient('mongodb+srv://admin:admin123@cluster0.7qxt2.mongodb.net/musicfy?retryWrites=true&w=majority')
-db = client.ContactDB
+client = MongoClient('mongodb+srv://admin:admin@cluster0.ovttb.mongodb.net/musicfy?retryWrites=true&w=majority')
+db = client.Musicfy
 
 pr = joblib.load("./music_recomm/IndividualUser.pkl")
 
@@ -31,7 +31,6 @@ CORS(app)
 def home():
     """Renders the home page."""
     return "home"
-    
 
 
 @app.route("/register", methods = ['POST'])
