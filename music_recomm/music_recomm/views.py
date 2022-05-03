@@ -15,12 +15,16 @@ from pymongo import MongoClient
 from bson.json_util import dumps
 import json
 from werkzeug.security import generate_password_hash,check_password_hash
+import pandas as pd
 
-client = MongoClient('mongodb+srv://admin:admin123@cluster0.7qxt2.mongodb.net/musicfy?retryWrites=true&w=majority')
-db = client.ContactDB
+client = MongoClient('mongodb+srv://admin:admin@cluster0.ovttb.mongodb.net/musicfy?retryWrites=true&w=majority')
+db = client.Musicfy
 
-pr = joblib.load("./music_recomm/IndividualUser.pkl")
+ir = joblib.load("./music_recomm/IndividualUser.pkl")
+pr = joblib.load("./music_recomm/PopularityRecommendation.pkl")
 
+songs_data=pd.read_csv("./music_recomm/songs.csv")
+print("pop",pr.recommend(songs_data['user_id'][5]))
 
 
 api = Api(app)
@@ -31,7 +35,6 @@ CORS(app)
 def home():
     """Renders the home page."""
     return "home"
-    
 
 
 @app.route("/register", methods = ['POST'])
@@ -99,7 +102,16 @@ def user(id):
 def song():
     data=json.loads(request.data)
     name1 =data["songname"] + " - " + data["name"]
-    recom=pr.get_similar_items([name1])
+    recom=ir.get_similar_items([name1])
     print(name1)
+    # return "hi"
+    return recom.to_json(orient ='records')
+
+
+@app.route("/popular-songs",methods=["GET"])
+def songs():
+    
+    recom=pr.recommend(songs_data['user_id'][5])
+    
     # return "hi"
     return recom.to_json(orient ='records')
