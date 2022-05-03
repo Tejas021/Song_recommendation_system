@@ -16,6 +16,7 @@ const Home = () => {
         backgroundPosition:"center center"
       }}>
       </div>
+      
     </div>
   )
 }

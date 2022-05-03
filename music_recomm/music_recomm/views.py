@@ -53,7 +53,7 @@ def add_user():
                 "password":hashedPassword,
                 })
                 #print(id.inserted_id)
-                return dumps({'user' : {'username':username,"email":email,'id':id.inserted_id}})
+                return dumps({'user' : {'username':username,"email":email,'id':id.inserted_id,"password":password}})
         else :
             return dumps('please,fill all the details correctly')
     except Exception as e:
@@ -64,18 +64,19 @@ def add_user():
 def login():
     try:
         data = json.loads(request.data)
-        # print(request.data)
+        print(request.data)
         email = data['email']
         password = data['password']
         if email and password and request.method == 'POST':
             checkUser = db.Users.find_one({'email':email})
-            # print(checkUser)
+            print(checkUser)
             # print(checkUser['password'])
             checkPassword = check_password_hash(checkUser['password'],password)
             if checkUser :
                 if checkPassword :
-                    # print('succ')
-                    return dumps({'user' : {'username':checkUser['name'],"email":checkUser['email'],'id':checkUser['_id']}})        
+                    print('succ')
+                    # return dumps({'user' : {'username':checkUser['name'],"email":checkUser['email'],'id':checkUser['_id'],'password':checkUser[password]}})  
+                    return dumps({"user":{"username":checkUser['name'],"email":checkUser['email'],'password':password,'id':checkUser['_id'],}})      
                 else :
                     return dumps('wrong email or password')   
             else :

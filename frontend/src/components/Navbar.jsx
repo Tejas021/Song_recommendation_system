@@ -1,15 +1,32 @@
-import React, { useState } from 'react'
+import React, { useState,useContext } from 'react'
 import { Link } from 'react-router-dom'
 import '../styles/navbar.scss'
+import {request} from '../axios'
+import { UserContext } from '../UserContext';
 
 const Navbar = () => {
 
     const [isScrolled, setIsScrolled] = useState(false);
+    const [info, setInfo] = useState({name:"",songname:""})
+    const [songs, setSongs] = useState(null)
+    const { user, setUser } = useContext(UserContext);
+
+    const submitReq=async(e)=>{
+        e.preventDefault()
+        request.post("/song",info).then(res=>res.data).then(res=>setSongs(res)) 
+    }
 
     window.onscroll = () => {
         setIsScrolled(window.pageYOffset === 0 ? false : true);
         return () => (window.onscroll = null);
+
     };
+
+    const logout = ()=>{
+        localStorage.setItem('email','')
+        localStorage.setItem('password','')
+        setUser(null)
+    }
 
     return (
         <div>
@@ -31,7 +48,9 @@ const Navbar = () => {
                                 <Link className="nav-link active" to="/">Home</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link active" to="/">Home</Link>
+                                <button style={{ background: 'transparent', color: "white" }} type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    Soongs
+                                </button>
                             </li>
                         </ul>
                         <div className="dropdown profile ">
@@ -40,7 +59,7 @@ const Navbar = () => {
                             </button>
                             <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                 <li><Link className="dropdown-item" to="/">name</Link></li>
-                                <li style={{ cursor: "pointer" }} ><p className="dropdown-item">Logout</p></li>
+                                <li style={{ cursor: "pointer" }} onClick={logout} ><p className="dropdown-item">Logout</p></li>
                             </ul>
                         </div>
 
@@ -51,6 +70,26 @@ const Navbar = () => {
                 </div>
             </nav>
 
+            <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div style={{borderBottom:'solid #fee600'}} className="modal-header">
+                            <h5 className="modal-title text-white" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            <form onSubmit={e => submitReq(e)}>
+                                <input type="text" placeholder="name" className='mx-2' onChange={(e) => setInfo({ ...info, name: e.target.value })} />
+                                <input type="text" placeholder="songname" className='mx-2' onChange={(e) => setInfo({ ...info, songname: e.target.value })} /><br />
+                                <button type="submit" className='btn btn-warning ms-2 my-3' >Submit</button>
+                            </form>
+
+                            {songs ? songs.map(sg => <p >{sg.song}</p>) : <div>wait</div>}
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
 
         </div>
     )
