@@ -6,5 +6,5 @@
 2. pipenv shell
 3. pipenv install
 5. $env:FLASK_APP="runserver.py"
-<!-- $env:FLASK_DEBUG=1 -->
-6. flask run
+6. $env:FLASK_DEBUG=1
+7. flask run
