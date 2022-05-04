@@ -13,6 +13,14 @@
         justify-content: center;
         align-items: center;
 
+        button{
+            background-color: #50C878;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border:0px;
+            outline:0px
+        }
+
     }
 
     input{
@@ -21,15 +29,16 @@
 
     }
 
-    button{
-        background-color: #50C878;
-        padding: 10px 20px;
-        border-radius: 5px;
-        border:0px;
-        outline:0px
-    }
+    
 }
 
-.rec_row{
-    align-items: center;
+.card{
+    height: 90%;
+    
+}
+
+.card-body{
+    justify-content: space-between;
+    flex-direction: column;
+    display: flex;
 }
