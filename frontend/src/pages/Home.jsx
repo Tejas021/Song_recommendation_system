@@ -14,7 +14,7 @@ const Home = () => {
           transparent,
           rgba(31, 31, 31, 0.5),
           #111
-        ),url(https://t4.ftcdn.net/jpg/01/16/59/33/240_F_116593337_QLHpCSQDgllQlKkvRGCqVzdvIR9AEdxU.jpg)`,
+        ),url(banner2.jpeg)`,
         backgroundPosition:"center center"
       }}>
      
