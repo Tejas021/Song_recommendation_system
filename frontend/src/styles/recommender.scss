@@ -1,0 +1,35 @@
+.recommender_container{
+    padding: 50px 100px;
+    background: black;
+    
+    h2{
+        color: #50C878;
+    }
+
+    form{
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    input{
+        padding: 10px;
+        width: 70%;
+
+    }
+
+    button{
+        background-color: #50C878;
+        padding: 10px 20px;
+        border-radius: 5px;
+        border:0px;
+        outline:0px
+    }
+}
+
+.rec_row{
+    align-items: center;
+}
