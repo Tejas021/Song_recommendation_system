@@ -2,9 +2,13 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
 import Signup from './pages/Signup'
 import Login from './pages/Login'
 import Home from './pages/Home'
+import Albums from './pages/Albums'
+import Artists from './pages/Artisrts'
+import Playlists from './pages/Playlists'
 import { useEffect, useState } from "react"
 // import Recommender from "./pages/Recommender"
 import { UserContext } from './UserContext'
+
 import { request } from './axios'
 import { useNavigate } from "react-router-dom";
 import axios from "axios"
@@ -14,7 +18,21 @@ import axios from "axios"
 function App() {
 
   const [user, setUser] = useState(null)
-  const [songs, setSongs] = useState(null)
+  const [music, setMusic] = useState(null)
+
+  // const compose = (providers) =>
+  //   providers.reduce((Prev, Curr) => ({ children }) => (
+  //     <Prev>
+  //       <Curr>{children}</Curr>
+  //     </Prev>
+  //   ));
+
+  // const Provider = compose([
+  //   UserContext.provider,
+  //   SongContext.provider,
+
+  // ]);
+
   // let navigate = useNavigate();
 
   useEffect(() => {
@@ -57,8 +75,8 @@ function App() {
       };
 
       axios.request(options).then(function (response) {
-        console.log(response.data);
-        setSongs(response.data)
+        setMusic(response.data)
+        console.log(music);
       }).catch(function (error) {
         console.error(error);
       });
@@ -68,16 +86,23 @@ function App() {
 
   return (
     <div className="App">
-      <UserContext.Provider value={{ user, setUser }}>
+     
+        <UserContext.Provider value={{ user, setUser }}>
+        {/* <SongContext.provider value={{music,setMusic}}> */}
         <Router>
           <Routes>
             <Route path="/register" element={user ? <Home /> : <Signup />} />
             <Route path="/login" element={user ? <Home /> : <Login />} />
             <Route path="/" element={user ? <Home /> : <Login />} />
+            <Route path='/albums' element={user ? <Albums music={music} /> : <Login />} />
+            <Route path='/artists' element={user ? <Artists music={music} /> : <Login />} />
+            <Route path='/playlists' element={user ? <Playlists music={music} /> : <Login />} />
             {/* <Route path="/songer" element={<Recommender />} />  */}
           </Routes>
         </Router>
+      
       </UserContext.Provider>
+      {/* </SongContext.provider> */}
     </div>
   );
 }

@@ -1,0 +1,21 @@
+.albums{
+    background-color: black;
+    height: 100%;
+    padding-top: 10%;
+   
+    .card{
+        height: 400px;
+        width: 30%;
+        .card-img-top{
+            height: 60%;
+        }
+    }
+}
+
+.text-success{
+    color: #50C878 !important;
+}
+
+.bg-success{
+    background-color: #50C878 !important;
+}
