@@ -9,6 +9,9 @@ const Artisrts = ({ music }) => {
   return (
     <div className='albums'>
             <Navbar />
+
+            <h2 className='ps-5 text-success'>Artists :</h2>
+
             <div className='container d-flex flex-row flex-wrap'>
                 {
                     music?.artists.items.map((artists) => {

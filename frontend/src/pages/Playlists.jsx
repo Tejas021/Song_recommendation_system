@@ -5,8 +5,11 @@ import Navbar from '../components/Navbar'
 const Playlists = ({music}) => {
     //console.log(music?.playlists.items.map(play=>console.log(play.data.images.items[0].sources[0].url)))
   return (
-    <div className='albums'>
+
+    <div className='albums '>
             <Navbar />
+            <h2 className='text-success ps-5'>Playlists :</h2>
+
             <div className='container d-flex flex-row flex-wrap'>
                 {
                     music?.playlists.items.map((playlists) => {

@@ -1,10 +1,14 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { request } from '../axios'
 import "../styles/recommender.scss"
+import { UserContext } from '../UserContext'
 const Recommender = () => {
   const [info, setInfo] = useState({ name: "", songname: "" })
   const [songs, setSongs] = useState(null)
   const [loading, setLoading] = useState(false)
+
+  const {user,setUser}=useContext(UserContext)
+
   const submitReq = async (e) => {
     e.preventDefault()
     setLoading(true)
@@ -17,19 +21,28 @@ const Recommender = () => {
     console.log("hi")
     let a = sg.song.split(" - ")
     setLoading(true)
+
+    console.log(user.user.id)
     request.post("/song", { name: a[1], songname: a[0] }).then(res => res.data).then(res => { setSongs(res); setLoading(false) })
+    request.post("/store",{song_id:sg.song_id,user_id:user.user.id,listen_count:1}).then(res=>console.log(res))
 
   }
 
   return (
     <div className='recommender_container'>
-      <h2 className='title'>Find Recommendation</h2>
-      <form onSubmit={e => submitReq(e)}>
 
-        <input type="text" placeholder="songname" onChange={(e) => setInfo({ ...info, songname: e.target.value })} />
-        <input className='mt-3' type="text" placeholder="artist" onChange={(e) => setInfo({ ...info, name: e.target.value })} />
-        <button className='my-4' type="submit" >Submit</button>
-      </form>
+
+      {console.log(songs)}
+        <h2 className='title'>Find Recommendation</h2>
+        <form onSubmit={e=>submitReq(e)}>
+         
+            <input type="text" placeholder="songname" onChange={(e)=>setInfo({...info,songname:e.target.value})}/>
+            <input type="text" placeholder="artist" onChange={(e)=>setInfo({...info,name:e.target.value})}/>
+            <button type="submit " >Submit</button>
+        </form>
+
+
+
 
       {!loading ?
 
