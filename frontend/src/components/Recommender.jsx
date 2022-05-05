@@ -23,6 +23,7 @@ const Recommender = () => {
 
   return (
     <div className='recommender_container'>
+      {console.log(songs)}
         <h2 className='title'>Find Recommendation</h2>
         <form onSubmit={e=>submitReq(e)}>
          
