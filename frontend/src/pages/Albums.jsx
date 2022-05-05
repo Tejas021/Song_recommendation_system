@@ -12,9 +12,11 @@ const Albums = ({ music }) => {
     return (
         <div className='albums'>
             <Navbar />
+
             <h2 className='text-success ps-5'>Albums :</h2>
             <div className='container d-flex flex-row flex-wrap'>
            
+
                 {
                     music?.albums.items.map((songs) => {
                         const img = songs.data.coverArt.sources[0].url;
