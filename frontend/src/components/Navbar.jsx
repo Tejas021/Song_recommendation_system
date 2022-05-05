@@ -1,19 +1,19 @@
-import React, { useState,useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import '../styles/navbar.scss'
-import {request} from '../axios'
+import { request } from '../axios'
 import { UserContext } from '../UserContext';
 
 const Navbar = () => {
 
     const [isScrolled, setIsScrolled] = useState(false);
-    const [info, setInfo] = useState({name:"",songname:""})
+    const [info, setInfo] = useState({ name: "", songname: "" })
     const [songs, setSongs] = useState(null)
     const { user, setUser } = useContext(UserContext);
 
-    const submitReq=async(e)=>{
+    const submitReq = async (e) => {
         e.preventDefault()
-        request.post("/song",info).then(res=>res.data).then(res=>setSongs(res)) 
+        request.post("/song", info).then(res => res.data).then(res => setSongs(res))
     }
 
     window.onscroll = () => {
@@ -22,9 +22,9 @@ const Navbar = () => {
 
     };
 
-    const logout = ()=>{
-        localStorage.setItem('email','')
-        localStorage.setItem('password','')
+    const logout = () => {
+        localStorage.setItem('email', '')
+        localStorage.setItem('password', '')
         setUser(null)
     }
 
@@ -42,16 +42,22 @@ const Navbar = () => {
                                 <Link className="nav-link active" aria-current="page" to="/">Home</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link active" to="/">Home</Link>
+                                <Link className="nav-link active" aria-current="page" to="/albums">Albums</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link active" to="/">Home</Link>
+                                <Link className="nav-link active" to="/artists">Artists</Link>
                             </li>
                             <li className="nav-item">
+                                <Link className="nav-link active" to="/artists">Playlists</Link>
+                            </li>
+                            {/* <li className="nav-item">
+                                <Link className="nav-link active" to="/">Home</Link>
+                            </li> */}
+                            {/* <li className="nav-item">
                                 <button style={{ background: 'transparent', color: "white" }} type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                     Soongs
                                 </button>
-                            </li>
+                            </li> */}
                         </ul>
                         <div className="dropdown profile ">
                             <button style={{ backgroundColor: "transparent", border: "0.2px solid transparent" }} className="btn btn-success dropdown-toggle " type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -63,9 +69,9 @@ const Navbar = () => {
                             </ul>
                         </div>
 
-                        <form className="me-md-4 mt-md-0 mt-3">
+                        {/* <form className="me-md-4 mt-md-0 mt-3">
                             <input className="form-control " type="search" placeholder="Search" aria-label="Search" />
-                        </form>
+                        </form> */}
                     </div>
                 </div>
             </nav>
@@ -73,7 +79,7 @@ const Navbar = () => {
             <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
-                        <div style={{borderBottom:'solid #fee600'}} className="modal-header">
+                        <div style={{ borderBottom: 'solid #fee600' }} className="modal-header">
                             <h5 className="modal-title text-white" id="exampleModalLabel">Modal title</h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
@@ -86,7 +92,7 @@ const Navbar = () => {
 
                             {songs ? songs.map(sg => <p >{sg.song}</p>) : <div>wait</div>}
                         </div>
-                       
+
                     </div>
                 </div>
             </div>
