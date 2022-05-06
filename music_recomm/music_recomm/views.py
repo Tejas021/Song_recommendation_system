@@ -3,7 +3,9 @@ Routes and views for the flask application.
 """
 
 
+# from crypt import methods
 from datetime import datetime
+# from debugpy import listen
 from flask import Response, render_template, jsonify, request
 from music_recomm import app
 from flask_cors import CORS
@@ -104,8 +106,24 @@ def song():
     name1 =data["songname"] + " - " + data["name"]
     recom=ir.get_similar_items([name1])
     print(name1)
+
     # return "hi"
     return recom.to_json(orient ='records')
+
+
+@app.route("/store",methods=["POST"])
+def store():
+    data=json.loads(request.data)
+    user_id = data['user_id']
+    song_id = data['song_id']
+    listen_count = data['listen_count']
+    id = db.Songs.insert_one({
+                "user_id" : user_id,
+                "song_id" : song_id,
+                "listen_count":listen_count,
+                })
+    return "hii"
+
 
 
 @app.route("/popular-songs",methods=["GET"])
