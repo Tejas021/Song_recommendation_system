@@ -7,6 +7,7 @@ const Playlists = ({music}) => {
   return (
     <div className='albums'>
             <Navbar />
+            <h2 className='text-success  ps-5'>Playlists:</h2>
             <div className='container d-flex flex-row flex-wrap'>
                 {
                     music?.playlists.items.map((playlists) => {
